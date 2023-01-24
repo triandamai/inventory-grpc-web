@@ -4,6 +4,7 @@ import upgradeBannerLight from '@/assets/images/pro/upgrade-banner-light.png'
 import logo from '@/assets/logo.svg?raw'
 import { VerticalNavLink, VerticalNavSectionTitle } from '@layouts'
 import { useTheme } from 'vuetify'
+import { menus } from "@/@core/utils/menu"
 
 const vuetifyTheme = useTheme()
 const upgradeBanner = computed(() => {
@@ -16,10 +17,7 @@ const upgradeBanner = computed(() => {
 <template>
   <!-- 👉 Nav header -->
   <div class="nav-header">
-    <RouterLink
-      to="/"
-      class="app-logo d-flex align-center gap-x-3 app-title-wrapper"
-    >
+    <RouterLink to="/" class="app-logo d-flex align-center gap-x-3 app-title-wrapper">
       <!-- ℹ️ You can also use img tag or VImg here -->
       <div v-html="logo" />
 
@@ -33,102 +31,21 @@ const upgradeBanner = computed(() => {
 
   <!-- 👉 Nav items -->
   <ul>
-    <VerticalNavLink
-      :item="{
-        title: 'Dashboard',
-        to: 'index',
-        icon: { icon: 'mdi-home-outline' }
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Account Settings',
-        to: 'account-settings',
-        icon: { icon: 'mdi-account-cog-outline' }
-      }"
-    />
-    <!-- 👉 Pages -->
-    <VerticalNavSectionTitle :item="{ heading: 'Pages' }" />
-    <VerticalNavLink
-      :item="{
-        title: 'Login',
-        to: 'login',
-        target: '_blank',
-        icon: { icon: 'mdi-login' }
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Register',
-        to: 'register',
-        target: '_blank',
-        icon: { icon: 'mdi-account-plus-outline' }
-      }"
-    />
-
-    <!-- ℹ️ This path doesn't exist so 404 route will catch this undefined path -->
-    <VerticalNavLink
-      :item="{
-        title: 'Error',
-        to: { path: '/error' },
-        target: '_blank',
-        icon: { icon: 'mdi-alert-circle-outline' }
-      }"
-    />
-
-    <!-- 👉 User Interface -->
-    <VerticalNavSectionTitle :item="{ heading: 'User Interface' }" />
-
-    <VerticalNavLink
-      :item="{
-        title: 'Typography',
-        to: 'typography',
-        icon: { icon: 'mdi-alpha-t-box-outline' }
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Icons',
-        to: 'icons',
-        icon: { icon: 'mdi-eye-outline' }
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Cards',
-        to: 'card-basic',
-        icon: { icon: 'mdi-credit-card-outline' }
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Tables',
-        to: 'tables',
-        icon: { icon: 'mdi-table' }
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Form Layouts',
-        to: 'form-layouts',
-        icon: { icon: 'mdi-form-select' }
-      }"
-    />
+    <template v-for="(item, index) in menus">
+      <VerticalNavLink v-if="item.type == 'link'" :item="{
+        title: item.title,
+        to: item.path,
+        icon: { icon: item.icon }
+      }" />
+      <VerticalNavSectionTitle v-if="item.type == 'divider'" :item="{ heading: item.title }" />
+    </template>
   </ul>
 
   <!-- 👉 illustration -->
-  <a
-    href="https://themeselection.com/item/materio-vuetify-vuejs-admin-template"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <img
-      :src="upgradeBanner"
-      alt="upgrade-banner"
-      transition="scale-transition"
-      class="upgrade-banner mx-auto"
-      style="max-width: 230px"
-    >
+  <a href="https://themeselection.com/item/materio-vuetify-vuejs-admin-template" target="_blank"
+    rel="noopener noreferrer">
+    <img :src="upgradeBanner" alt="upgrade-banner" transition="scale-transition" class="upgrade-banner mx-auto"
+      style="max-width: 230px">
   </a>
 </template>
 
