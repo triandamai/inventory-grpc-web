@@ -41,12 +41,13 @@ const itemPerPage = ref(10)
             <template v-slot:activator="{ props }">
               <VBtn icon="mdi-dots-vertical" v-bind="props" size="x-small" />
             </template>
-            <VList>
-              <VListItem>
-                <VListItemTitle>Lihat Detail</VListItemTitle>
-              </VListItem>
-              <VListItem>
-                <VListItemTitle>Edit</VListItemTitle>
+            <VList :density="'compact'" :lines="'one'" nav>
+              <VListItem v-for="(item, i) in [{ text: 'Edit', icon: 'mdi-folder' },
+              { text: 'View', icon: 'mdi-account-multiple' }]" :key="i" :value="item" active-color="primary">
+                <template v-slot:prepend>
+                  <VIcon :icon="item.icon" />
+                </template>
+                <VListItemTitle v-text="item.text"></VListItemTitle>
               </VListItem>
 
             </VList>
