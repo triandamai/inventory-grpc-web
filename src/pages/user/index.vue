@@ -1,19 +1,7 @@
 
 <script setup lang="ts">
-import { useBook } from '@/store/book/book';
-import { Book } from '@/store/book/type';
 
 const props = defineProps({})
-
-const book = useBook()
-
-function getBooks() {
-  book.getListBook()
-}
-
-onMounted(() => {
-  getBooks()
-})
 
 const headers = [
   { title: 'Cover', align: 'end', sortable: false, key: 'cover' },
@@ -27,7 +15,7 @@ const headers = [
   { title: 'Aksi', align: 'end', sortable: false, key: 'action' },
 ]
 
-const datas: Array<Book> = []
+const datas: Array<any> = []
 </script>
 <template>
   <VRow>

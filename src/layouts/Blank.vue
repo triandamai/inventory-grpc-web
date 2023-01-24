@@ -14,7 +14,6 @@ export default defineComponent({
   },
 })
 </script>
-
 <style>
 .layout-wrapper.layout-blank {
   flex-direction: column;
