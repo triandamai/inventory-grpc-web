@@ -1,6 +1,6 @@
 import { useApi } from '@/@core/utils/api'
 import { useSession } from '@/composables/session'
-import { LoginRequest, LoginResponse } from './type';
+import { SignInWithEmailRequest, SignInResponse } from './type';
 
 export const useAuth = defineStore('counter', {
   state: () => ({
@@ -8,24 +8,22 @@ export const useAuth = defineStore('counter', {
   }),
   getters: {},
   actions: {
-    async signIn(body: LoginRequest): Promise<{
+    async signIn(body: SignInWithEmailRequest): Promise<{
       success: boolean
       message: string
     }> {
       const api = useApi()
       const session = useSession()
 
-      const { success, data, message } = await api.post<LoginResponse>(`/v1/auth/login`, {
+      const { success, data, message } = await api.post<SignInResponse>(`/api/v1/sign-in-email`, {
         email: body.email,
         password: body.password,
       })
       if (success) {
-        session.setUser(data)
-        session.setAccessToken(data.access_token)
-        session.setToken(data.token)
+        session.setUser(data.user)
       }
       return {
-        success: true,
+        success: success,
         message: message,
       }
     },

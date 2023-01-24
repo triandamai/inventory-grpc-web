@@ -1,29 +1,32 @@
-
 <script setup lang="ts">
-
+import { useUser } from "@/store/user/user"
 const props = defineProps({})
 
+const user = useUser()
+
 const headers = [
-  { title: 'Cover', align: 'end', sortable: false, key: 'cover' },
+  { title: 'Name', align: 'start', sortable: false, key: 'userFullName' },
   {
-    title: 'Judul',
+    title: 'Emil',
     align: 'start',
     sortable: false,
-    key: 'name',
+    key: 'userEmail',
   },
-  { title: 'ISBN', align: 'end', sortable: false, key: 'calories' },
-  { title: 'Aksi', align: 'end', sortable: false, key: 'action' },
+  { title: 'Dibuat', align: 'start', sortable: false, key: 'createdAt' },
+  { title: 'Aksi', align: 'start', sortable: false, key: 'action' },
 ]
 
-const datas: Array<any> = []
+onMounted(() => {
+  user.getListUser()
+})
 </script>
 <template>
   <VRow>
     <VCol cols="12">
-      <BookStatisticCard />
+      <StatisticCard />
     </VCol>
     <VCol cols="12">
-      <BookDatatable :header="headers" :data="datas" />
+      <UserDatatable :header="headers" :data="user.dataUser.item" />
     </VCol>
   </VRow>
 </template>

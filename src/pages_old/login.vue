@@ -10,7 +10,7 @@ import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import { useAuth } from '@/store/auth/auth'
 
 const auth = useAuth()
-const router = useRouter()
+
 const form = ref({
   email: '',
   password: '',
@@ -28,13 +28,10 @@ const isPasswordVisible = ref(false)
 
 async function onSubmit() {
   const { success, message } = await auth.signIn({
-    email: form.value.email,
-    password: form.value.password
+    email: 'trian@gmail.com',
+    password: 'admin123'
   })
-  if (success) {
-    router.push({ path: '/' })
-  }
-
+  console.log(success, message)
 }
 </script>
 

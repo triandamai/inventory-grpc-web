@@ -5,7 +5,7 @@
 import { useSession } from '@/composables/session'
 import axios, { AxiosResponse } from 'axios'
 
-export const BASE_URL = 'https://api.maos.bakaranproject.com'
+export const BASE_URL = 'http://localhost:8001'
 
 export type BaseResponse<T> = {
   success: boolean
@@ -13,18 +13,10 @@ export type BaseResponse<T> = {
   data: T
 }
 export type BasePaging<T> = {
-  current_page: number,
-  last_page: number,
-  from: number,
-  to: number,
-  total: number,
-  first_page_url: string,
-  last_page_url: string,
-  path: string,
+  currentPage: number;
+  totalPage: number;
+  totalItem: number;
   data: Array<T>,
-  link: Array<{ url: string | null, label: string, active: boolean }>,
-  per_page: number,
-  prev_page_url: string | null,
 
 }
 
@@ -33,49 +25,26 @@ export type BasePaging<T> = {
  * Http interceptor
  * giving final result from variant response Backend
  * **/
-function onError(err: any) {
-  if (err.response) {
-    const { status, data } = err.response
-    const message = () => {
-      if (!status) return 'Terjadi Kesalahan pada sistem, akan kami perbaiki segera'
-      if (status == 401) return 'Akun yang anda masukkan tidak dikenali'
+async function onError(err: any) {
 
-      return 'Kami mengalami masalah, coba beberapa saat lagi'
-    }
-    return Promise.resolve<BaseResponse<any>>({
-      success: false,
-      message: message(),
-      data: null,
-    })
-  }
   return Promise.resolve<BaseResponse<any>>({
     success: false,
-    message: 'Kami mengalami masalah, coba beberapa saat lagi',
+    message: err.response.data.message,
     data: null,
   })
 }
 
 function onResponse(res: AxiosResponse<any, any>): BaseResponse<any> {
   const { status, data } = res
+  console.log(data)
 
-  let errMessage = ''
-  if (data.message) {
-    if (Array.isArray(data.message)) {
-      data.message.forEach((element: string) => {
-        errMessage += element
-      })
-    } else {
-      errMessage = data.message
-    }
-  }
+  let errMessage = data.message
 
   if (status >= 200 && status <= 209) {
-    if (data.code > 0) {
-      return {
-        success: true,
-        data: data.data,
-        message: errMessage,
-      }
+    return {
+      success: true,
+      data: data,
+      message: errMessage,
     }
   }
 
@@ -88,35 +57,20 @@ function onResponse(res: AxiosResponse<any, any>): BaseResponse<any> {
 
 export function useApi() {
   const session = useSession()
-  /***
-   * automatic add query token at the ends of url
-   * @example https://example.com/api/book?token=<TOKEN>
-   * @example https://example.com/api/book?page=0&token=<TOKEN>
-   * @returns complete url
-   */
-  function buildUrlWithToken(url: string) {
-    const token = session.getToken()
-    if (token != null || token != undefined) {
-      const separator = url.includes('?') ? `&token=${token}` : `?token=${token}`
 
-      return `${BASE_URL}${url}${separator}`
-    }
-    return url
+  function buildUrlWithToken(url: string) {
+
+    return `${BASE_URL}${url}`
   }
 
   const getAxios = () => {
     axios.interceptors.response.use(onResponse, onError)
-    const token = session.getAccessToken()
-    if (token != null || token != undefined) {
-      axios.defaults.headers.common['ApiKey'] = `${token}`
-    }
     return axios
   }
   async function get<T>(url: string): Promise<BaseResponse<T>> {
     return getAxios().get(buildUrlWithToken(url), {
       headers: {
         'content-type': 'application/json',
-
       }
     })
   }
