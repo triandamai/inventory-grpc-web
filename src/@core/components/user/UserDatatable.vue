@@ -47,7 +47,7 @@ const itemPerPage = ref(10)
                 <template v-slot:prepend>
                   <VIcon :icon="item.icon" />
                 </template>
-                <VListItemTitle v-text="item.text"></VListItemTitle>
+                <VListItemTitle v-text="item.text" />
               </VListItem>
 
             </VList>
