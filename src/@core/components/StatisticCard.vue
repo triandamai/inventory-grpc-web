@@ -1,15 +1,23 @@
 <script setup lang="ts">
-const statisticData =
-{
-  title: "Total Buku",
-  total: 100
-}
+defineProps({
+  title: {
+    type: String,
+    default: () => ""
+  },
+  subtitle: {
+    type: String,
+    default: () => ""
+  },
+  total: {
+    type: String
+  }
+})
 
 </script>
 <template>
   <VCard>
     <VCardTitle class="align-start">
-      <span class="font-weight-semibold">Daftar Buku Yang Tersedia</span>
+      <span class="font-weight-semibold">{{ title }}</span>
       <VSpacer />
     </VCardTitle>
     <VCardText>
@@ -20,10 +28,10 @@ const statisticData =
           </VAvatar>
           <div class="ms-3">
             <p class="text-xs mb-0">
-              {{ statisticData.title }}
+              {{ subtitle }}
             </p>
             <h3 class="text-xl font-weight-semibold">
-              {{ statisticData.total }}
+              {{ total }}
             </h3>
           </div>
         </VCol>

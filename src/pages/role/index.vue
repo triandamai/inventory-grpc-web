@@ -10,7 +10,7 @@ const role = useRole()
 const router = useRouter()
 
 const headers = [
-  { title: 'Name', align: 'end', sortable: false, key: 'roleName' },
+  { title: 'Name', align: 'start', sortable: false, key: 'roleName' },
   {
     title: 'Description',
     align: 'start',
@@ -29,7 +29,8 @@ onMounted(() => {
 <template>
   <VRow>
     <VCol cols="12">
-      <BookStatisticCard />
+      <StatisticCard title="Daftar Role Pada Aplikasi" subtitle="Jumlah Role"
+        :total="role.dataRole.totalItem.toString()" />
     </VCol>
     <VCol cols="12">
       <RoleDatatable @create="router.push({path:'/role/add'})" :header="headers" :data="role.dataRole.items" />
