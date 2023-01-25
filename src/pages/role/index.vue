@@ -1,23 +1,30 @@
 
 <script setup lang="ts">
+import { useRole } from '@/store/role/role';
+import RoleDatatable from '@/views/pages/role/RoleDatatable.vue';
+
 
 const props = defineProps({})
 
+const role = useRole()
+const router = useRouter()
+
 const headers = [
-  { title: 'Cover', align: 'end', sortable: false, key: 'cover' },
+  { title: 'Name', align: 'end', sortable: false, key: 'roleName' },
   {
-    title: 'Judul',
+    title: 'Description',
     align: 'start',
     sortable: false,
-    key: 'name',
+    key: 'roleDescription',
   },
-  { title: 'ISBN', align: 'end', sortable: false, key: 'calories' },
+  { title: 'Created At', align: 'end', sortable: false, key: 'createdAt' },
   { title: 'Aksi', align: 'end', sortable: false, key: 'action' },
 ]
 
-const drawer = ref(false)
+onMounted(() => {
+  role.getListRole()
+})
 
-const datas: Array<any> = []
 </script>
 <template>
   <VRow>
@@ -25,7 +32,7 @@ const datas: Array<any> = []
       <BookStatisticCard />
     </VCol>
     <VCol cols="12">
-      <RoleDatatable @create="drawer = true" :header="headers" :data="datas" />
+      <RoleDatatable @create="router.push({path:'/role/add'})" :header="headers" :data="role.dataRole.items" />
     </VCol>
   </VRow>
 </template>

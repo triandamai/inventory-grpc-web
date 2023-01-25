@@ -12,10 +12,9 @@ export const useRole = defineStore('role', {
   }),
   actions: {
     async getListRole() {
-      const api = useApi()
+      const { get } = useApi()
 
-      const { success, data, message } = await api.get<BasePaging<RoleResponse>>(`/api/v1/roles?page=0`)
-
+      const { success, data, message } = await get<BasePaging<RoleResponse>>(`/api/v1/roles?page=0`)
       if (success) {
         this.dataRole.items = data.data
         this.dataRole.currentPage = data.currentPage
@@ -24,9 +23,13 @@ export const useRole = defineStore('role', {
       }
     },
     async createRole(body: CreateRoleRequest) {
-      const api = useApi()
+      const { post } = useApi()
 
-      const { success, data, message } = await api.post<RoleResponse>(``, body)
+      const response = await post<RoleResponse>(`/api/v1/role/create`, body)
+
+      return {
+        ...response
+      }
     }
   }
 })

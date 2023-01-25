@@ -3,7 +3,7 @@
  * author @triandamai
  * **/
 import { useSession } from '@/composables/session'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 export const BASE_URL = 'http://localhost:8001'
 
@@ -21,87 +21,123 @@ export type BasePaging<T> = {
 }
 
 
-/**
- * Http interceptor
- * giving final result from variant response Backend
- * **/
-async function onError(err: any) {
 
-  return Promise.resolve<BaseResponse<any>>({
-    success: false,
-    message: err.response.data.message,
-    data: null,
-  })
-}
-
-function onResponse(res: AxiosResponse<any, any>): BaseResponse<any> {
-  const { status, data } = res
-  console.log(data)
-
-  let errMessage = data.message
-
-  if (status >= 200 && status <= 209) {
-    return {
-      success: true,
-      data: data,
-      message: errMessage,
-    }
-  }
-
-  return {
-    success: false,
-    message: errMessage,
-    data: null,
-  }
-}
 
 export function useApi() {
-  const session = useSession()
+  const buildUrlWithToken = (url: string) => `${BASE_URL}${url}`
 
-  function buildUrlWithToken(url: string) {
-
-    return `${BASE_URL}${url}`
-  }
-
-  const getAxios = () => {
-    axios.interceptors.response.use(onResponse, onError)
-    return axios
-  }
-  async function get<T>(url: string): Promise<BaseResponse<T>> {
-    return getAxios().get(buildUrlWithToken(url), {
-      headers: {
-        'content-type': 'application/json',
+  function get<T>(url: string): Promise<BaseResponse<T | null>> {
+    return new Promise(async (resolve) => {
+      const { status, data } = await axios.get(buildUrlWithToken(url), {
+        headers: {
+          'content-type': 'application/json',
+        }
+      })
+      if (status >= 200 && status <= 209) {
+        resolve({
+          success: true,
+          message: "",
+          data: data
+        })
+        return
       }
+      resolve({
+        success: false,
+        message: "",
+        data: null
+      })
     })
   }
 
-  async function post<T>(url: string, body: any): Promise<BaseResponse<T>> {
-    return getAxios().post(buildUrlWithToken(url), body, {
-      headers: {
-        'content-type': 'application/json'
+  function post<T>(url: string, body: any): Promise<BaseResponse<T | null>> {
+    return new Promise(async (resolve) => {
+      const { status, data } = await axios.post(buildUrlWithToken(url), body, {
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      if (status >= 200 && status <= 209) {
+        resolve({
+          success: true,
+          message: "",
+          data: data
+        })
+        return
       }
+      resolve({
+        success: false,
+        message: "",
+        data: null
+      })
     })
   }
 
-  async function put<T>(url: string, body: any): Promise<BaseResponse<T>> {
-    return getAxios().put(buildUrlWithToken(url), body, {
-      headers: {
-        'content-type': 'application/json'
+  function put<T>(url: string, body: any): Promise<BaseResponse<T | null>> {
+    return new Promise(async (resolve) => {
+      const { status, data } = await axios.put(buildUrlWithToken(url), body, {
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      if (status >= 200 && status <= 209) {
+        resolve({
+          success: true,
+          message: "",
+          data: data
+        })
+        return
       }
+      resolve({
+        success: false,
+        message: "",
+        data: null
+      })
+    })
+
+  }
+  function remove<T>(url: string): Promise<BaseResponse<T | null>> {
+    return new Promise(async (resolve) => {
+      const { status, data } = await axios.delete(buildUrlWithToken(url), {
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      if (status >= 200 && status <= 209) {
+        resolve({
+          success: true,
+          message: "",
+          data: data
+        })
+        return
+      }
+      resolve({
+        success: false,
+        message: "",
+        data: null
+      })
+
     })
   }
-  async function remove<T>(url: string): Promise<BaseResponse<T>> {
-    return getAxios().delete(buildUrlWithToken(url), {
-      headers: {
-        'content-type': 'application/json'
+  function postFormData<T>(url: string, body: FormData): Promise<BaseResponse<T | null>> {
+    return new Promise(async (resolve) => {
+      const { status, data } = await axios.postForm(buildUrlWithToken(url), body, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      if (status >= 200 && status <= 209) {
+        resolve({
+          success: true,
+          message: "",
+          data: data
+        })
+        return
       }
-    })
-  }
-  async function postFormData<T>(url: string, body: FormData): Promise<BaseResponse<T>> {
-    return getAxios().postForm(buildUrlWithToken(url), body, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      resolve({
+        success: false,
+        message: "",
+        data: null
+      })
     })
   }
 
@@ -112,4 +148,15 @@ export function useApi() {
     remove,
     postFormData
   }
+}
+
+export function groupBy<T>(arr: T[], fn: (item: T) => any) {
+  return arr.reduce<Record<string, T[]>>((prev, curr) => {
+    const groupKey = fn(curr)
+    const group = prev[groupKey] || []
+    group.push(curr)
+    return {
+      ...prev, [groupKey]: group
+    }
+  }, {})
 }

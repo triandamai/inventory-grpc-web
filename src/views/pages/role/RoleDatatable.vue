@@ -20,6 +20,7 @@ const props = defineProps({
 const emit = defineEmits(['create'])
 const itemPerPage = ref(10)
 
+
 </script>
 <template>
   <VCard>

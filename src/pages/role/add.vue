@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import { listRolePermission, defaultArray } from "@/@core/utils/menu"
+import { usePermission } from "@/store/permission/permission"
+import { useRole } from "@/store/role/role"
+import { CreateRoleRequest } from "@/store/role/type"
+const permission = usePermission()
+const role = useRole()
+const groupBy = [{ key: "permissionGroup" }]
+const sortBy = [{ key: 'permissionId' }]
+const header = [{
+  title: 'Access', align: 'start', value: 'permissionType', groupable: false
+}]
+const form = reactive<CreateRoleRequest>({
+  roleName: "",
+  roleDescription: "",
+  permission: []
+})
 
-
-const selected = ref<Array<{
-  code: number,
-  read: number,
-  write: number
-}>>(defaultArray)
-
-function assignRead(index: number) {
-  selected.value[index].read = selected.value[index].read == 774 ? 775 : 774
-}
-function assignWrite(index: number) {
-  selected.value[index].write = selected.value[index].write == 774 ? 775 : 774
-}
-
-function onClick() {
-  selected.value.map(v => {
-    console.log(v)
-  })
+async function onSubmit() {
+  const { success, data, message } = await role.createRole(form)
 }
 
-function onReset() {
-  console.log("a")
-  selected.value = defaultArray
-}
+onMounted(() => {
+  permission.getListPermission()
+})
+// watch(() => permission.dataPermission.items, (newValue) => {
+//   console.log(newValue)
+// })
 </script>
 
 <template>
@@ -36,46 +36,23 @@ function onReset() {
     <VCardText>
       <VRow>
         <VCol cols="12" md="3">
-          <VTextField placeholder="Role Name" />
+          <VTextField v-model="form.roleName" placeholder="Role Name" />
         </VCol>
         <VCol cols="12" md="9">
-          <VTextField placeholder="Role Description" />
+          <VTextField v-model="form.roleDescription" placeholder="Role Description" />
         </VCol>
       </VRow>
     </VCardText>
 
-    <VTable class="text-no-wrap">
-      <thead>
-        <tr>
-          <th scope="col">
-            Permission
-          </th>
-          <th scope="col">
-            READ
-          </th>
-          <th scope="col">
-            WRITE
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(permission, index) in listRolePermission" :key="permission.code">
-          <td>
-            {{ permission.name }}
-          </td>
-          <td>
-            <VCheckbox @change="assignRead(index)" :model-value="selected[index].read" :value="774" />
-          </td>
-          <td>
-            <VCheckbox @change="assignWrite(index)" :model-value="selected[index].write" :value="774" />
-          </td>
-        </tr>
-      </tbody>
-    </VTable>
+    <VCardText>
+      <VDataTable :group-by="groupBy" :headers="header" :sort-by="sortBy" show-select hide-default-footer
+        v-model="form.permission" :items="permission.dataPermission.items" class="elevation-0"
+        item-value="permissionId" />
+    </VCardText>
     <VDivider />
 
     <VCardText>
-      <VForm @submit.prevent="() => { onClick() }">
+      <VForm @submit.prevent="() => { onSubmit() }">
         <div class="d-flex flex-wrap gap-4 mt-4">
           <VBtn type="submit">
             Save Changes

@@ -12,9 +12,9 @@ export const useUser = defineStore('user', {
   }),
   actions: {
     async getListUser() {
-      const api = useApi()
+      const { get } = useApi()
 
-      const { success, data, message } = await api.get<BasePaging<UserResponse>>(`/api/v1/users?page=0`)
+      const { success, data, message } = await get<BasePaging<UserResponse>>(`/api/v1/users?page=0`)
       if (success) {
         this.dataUser.items = data.data
         this.dataUser.currentPage = data.currentPage

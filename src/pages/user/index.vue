@@ -26,7 +26,7 @@ onMounted(() => {
       <StatisticCard />
     </VCol>
     <VCol cols="12">
-      <UserDatatable :header="headers" :data="user.dataUser.item" />
+      <UserDatatable :header="headers" :data="user.dataUser.items" />
     </VCol>
   </VRow>
 </template>

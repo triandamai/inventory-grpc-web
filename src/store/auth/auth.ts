@@ -12,10 +12,10 @@ export const useAuth = defineStore('counter', {
       success: boolean
       message: string
     }> {
-      const api = useApi()
+      const { post } = useApi()
       const session = useSession()
 
-      const { success, data, message } = await api.post<SignInResponse>(`/api/v1/sign-in-email`, {
+      const { success, data, message } = await post<SignInResponse>(`/api/v1/sign-in-email`, {
         email: body.email,
         password: body.password,
       })
