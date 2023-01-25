@@ -15,6 +15,8 @@ const headers = [
   { title: 'Aksi', align: 'end', sortable: false, key: 'action' },
 ]
 
+const drawer = ref(false)
+
 const datas: Array<any> = []
 </script>
 <template>
@@ -23,7 +25,7 @@ const datas: Array<any> = []
       <BookStatisticCard />
     </VCol>
     <VCol cols="12">
-      <BookDatatable :header="headers" :data="datas" />
+      <RoleDatatable @create="drawer = true" :header="headers" :data="datas" />
     </VCol>
   </VRow>
 </template>

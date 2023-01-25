@@ -5,3 +5,8 @@ export type RoleResponse = {
   createdAt: string,
   updatedAt: string
 }
+
+export type CreateRoleRequest = {
+  roleName: string,
+  roleDescription: string
+}

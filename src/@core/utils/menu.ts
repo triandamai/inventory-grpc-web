@@ -1,3 +1,5 @@
+import exp from "constants"
+
 export const menus: Array<{
   title: string,
   path: string,
@@ -62,3 +64,36 @@ export const menus: Array<{
       icon: "mdi-store"
     },
   ]
+
+/**
+ * 774 = true
+ * 775 = false
+*/
+export const listRolePermission: Array<{
+  name: string,
+  code: number,
+  read: 774 | 775,
+  write: 774 | 775
+}> = [
+    {
+      name: "Manage User",
+      code: 1,
+      read: 774,
+      write: 775
+    },
+    {
+      name: "Manage Role",
+      code: 2,
+      read: 774,
+      write: 775
+    }
+
+  ]
+
+export const defaultArray = listRolePermission.map(v => {
+  return {
+    code: v.code,
+    write: 775,
+    read: 775
+  }
+})
