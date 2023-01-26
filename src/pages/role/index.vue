@@ -24,7 +24,7 @@ const selectedRole = ref<RoleResponse | null>(null)
 const dialogShowDetail = ref(false)
 const dialogShowDeleteConfirmation = ref(false)
 
-function resetSelectedRle() {
+function resetSelectedRole() {
   selectedRole.value = {
     roleId: "",
     roleName: "",
@@ -40,7 +40,7 @@ function onShowDetailRole(item: any) {
 }
 function onHideDetailRole() {
   dialogShowDetail.value = false
-  resetSelectedRle()
+  resetSelectedRole()
 }
 
 function onShowDeleteConfirmatin(item: any) {
@@ -50,7 +50,7 @@ function onShowDeleteConfirmatin(item: any) {
 
 function onCancelDelete() {
   dialogShowDeleteConfirmation.value = false
-  resetSelectedRle()
+  resetSelectedRole()
 }
 
 async function onSubmitDeleteRole() {

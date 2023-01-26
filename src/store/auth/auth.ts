@@ -20,7 +20,7 @@ export const useAuth = defineStore('counter', {
         password: body.password,
       })
       if (success) {
-        session.setUser(data.user)
+        session.setUser(data!.user)
       }
       return {
         success: success,

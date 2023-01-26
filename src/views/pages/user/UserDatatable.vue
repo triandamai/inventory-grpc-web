@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { UserResponse } from '@/store/user/type';
 
-const props = defineProps({
+defineProps({
   header: {
     type: Array<{
       title: string,
@@ -16,6 +16,9 @@ const props = defineProps({
     default: []
   }
 })
+defineEmits(['create', 'edit', 'delete', 'show'])
+
+
 const itemPerPage = ref(10)
 
 </script>
@@ -36,18 +39,23 @@ const itemPerPage = ref(10)
       <VDataTable v-model:items-per-page="itemPerPage" :headers="header" :items="data" item-value="name"
         class="elevation-0">
         <template v-slot:item.action="{ item }">
-          <VBtn icon="mdi-delete" variant="flat" color="primary" size="x-small" />
+          <VBtn icon="mdi-delete" @click="$emit('delete', item)" variant="flat" color="primary" size="x-small" />
           <VMenu>
             <template v-slot:activator="{ props }">
               <VBtn icon="mdi-dots-vertical" v-bind="props" size="x-small" />
             </template>
             <VList :density="'compact'" :lines="'one'" nav>
-              <VListItem v-for="(item, i) in [{ text: 'Edit', icon: 'mdi-folder' },
-              { text: 'View', icon: 'mdi-account-multiple' }]" :key="i" :value="item" active-color="primary">
+              <VListItem active-color="primary" @click="$emit('show', item)">
                 <template v-slot:prepend>
-                  <VIcon :icon="item.icon" />
+                  <VIcon icon="mdi-eye" />
                 </template>
-                <VListItemTitle v-text="item.text" />
+                <VListItemTitle>Show </VListItemTitle>
+              </VListItem>
+              <VListItem active-color="primary" @click="$emit('edit', item)">
+                <template v-slot:prepend>
+                  <VIcon icon="mdi-folder" />
+                </template>
+                <VListItemTitle>Edit</VListItemTitle>
               </VListItem>
 
             </VList>

@@ -18,6 +18,15 @@ const emit = defineEmits(["close", "edit"])
 
 const isShow = ref(false)
 
+const permission = ref<Record<string, PermissionResponse[]>>({})
+
+watch(() => props.detail, (newValue) => {
+  if (newValue?.permission) {
+    if (newValue.permission.length > 0) {
+      permission.value = groupBy(newValue.permission, (p) => p.permissionGroup)
+    }
+  }
+})
 watch(() => props.show, (newValue) => {
   isShow.value = newValue
 })
@@ -49,9 +58,8 @@ watch(() => props.show, (newValue) => {
 
       <div class="px-4">
         <VList class="bg-transparent">
-          <VListItem v-for="(item) in groupBy(detail?.permission as PermissionResponse[], (p) => p.permissionGroup)"
-            :key="item[0].permissionId" :prepend-icon="'mdi-eye'" :title="item[0].permissionName"
-            :subtitle="item.map((v) => `${v.permissionType}`).join(',')" />
+          <VListItem v-for="item in permission" :key="item[0].permissionId" :prepend-icon="'mdi-eye'"
+            :title="item[0].permissionName" :subtitle="item.map((v) => `${v.permissionType}`).join(',')" />
         </VList>
       </div>
 
