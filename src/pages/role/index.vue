@@ -17,20 +17,15 @@ const headers = [
   { title: 'Aksi', align: 'end', sortable: false, key: 'action' },
 ]
 
-const role = useRole()
+const { dataRole, getListRole, deleteRole } = useRole()
 const router = useRouter()
 
-const detailRole = ref<RoleResponse | null>(null)
+const selectedRole = ref<RoleResponse | null>(null)
 const dialogShowDetail = ref(false)
+const dialogShowDeleteConfirmation = ref(false)
 
-
-function onShow(item: any) {
-  dialogShowDetail.value = true
-  detailRole.value = item.value
-}
-function onHide() {
-  dialogShowDetail.value = false
-  detailRole.value = {
+function resetSelectedRle() {
+  selectedRole.value = {
     roleId: "",
     roleName: "",
     roleDescription: "",
@@ -39,28 +34,59 @@ function onHide() {
     updatedAt: ""
   }
 }
+function onShowDetailRole(item: any) {
+  dialogShowDetail.value = true
+  selectedRole.value = item.value
+}
+function onHideDetailRole() {
+  dialogShowDetail.value = false
+  resetSelectedRle()
+}
 
-function onEdit(item: any) {
+function onShowDeleteConfirmatin(item: any) {
+  dialogShowDeleteConfirmation.value = true
+  selectedRole.value = item.value
+}
+
+function onCancelDelete() {
+  dialogShowDeleteConfirmation.value = false
+  resetSelectedRle()
+}
+
+async function onSubmitDeleteRole() {
+  const success = await deleteRole(selectedRole.value!.roleId)
+
+  dialogShowDeleteConfirmation.value = false
+  if (success) {
+
+  }
+}
+
+
+
+function onEditRole(item: any) {
   router.push({
     path: `/role/edit/${item.value.roleId}`
   })
 }
 
 onMounted(() => {
-  role.getListRole()
+  getListRole()
 })
 
 </script>
 <template>
   <VRow>
     <VCol cols="12">
-      <StatisticCard title="Daftar Role Pada Aplikasi" subtitle="Jumlah Role"
-        :total="role.dataRole.totalItem.toString()" />
+      <StatisticCard title="Daftar Role Pada Aplikasi" subtitle="Jumlah Role" :total="dataRole.totalItem.toString()" />
     </VCol>
     <VCol cols="12">
-      <RoleDatatable @create="router.push({ path: '/role/add' })" @edit="onEdit" :header="headers"
-        :data="role.dataRole.items" @show="onShow" />
+      <RoleDatatable @create="router.push({ path: '/role/add' })" @show="onShowDetailRole" @edit="onEditRole"
+        @delete="onShowDeleteConfirmatin" :header="headers" :data="dataRole.items" />
     </VCol>
-    <DialogShowDetailRole :show="dialogShowDetail" :detail="detailRole" @close="onHide" />
+    <DialogShowDetailRole :show="dialogShowDetail" :detail="selectedRole" @close="onHideDetailRole" />
+    <DialogDeleteConfirmation :show="dialogShowDeleteConfirmation"
+      :title="'Hapus data Role (' + selectedRole?.roleName + ')?'"
+      message="Setelah dihapus dapat tidak dapat dikembalikan" @close="onCancelDelete" @submit="onSubmitDeleteRole" />
   </VRow>
 </template>

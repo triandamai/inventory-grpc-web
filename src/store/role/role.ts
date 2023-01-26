@@ -1,5 +1,5 @@
 import { BasePaging, useApi } from "@/@core/utils/api";
-import { CreateRoleRequest, RoleResponse } from "./type";
+import { CreateRoleRequest, RoleResponse, UpdateRoleRequest } from "./type";
 
 export const useRole = defineStore('role', {
   state: () => ({
@@ -38,15 +38,26 @@ export const useRole = defineStore('role', {
         ...response
       }
     },
-    async updateRole(body: string, id: string) {
+    async updateRole(body: UpdateRoleRequest) {
 
       const { put } = useApi()
 
-      const response = await put<RoleResponse>(`/api/v1/role/${id}`, body)
+      const response = await put<RoleResponse>(`/api/v1/role`, body)
 
       return {
         ...response
       }
+    },
+    async deleteRole(roleId: string): Promise<boolean> {
+      const { remove } = useApi()
+      const { success, data } = await remove<RoleResponse>(`/api/v1/role/${roleId}`)
+
+      if (success) {
+        const findIndex = this.dataRole.items.map(v => v.roleId).indexOf(data!.roleId)
+
+        this.dataRole.items.splice(findIndex, 1)
+      }
+      return success
     }
   }
 })

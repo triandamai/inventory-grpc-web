@@ -9,7 +9,7 @@ import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import { useAuth } from '@/store/auth/auth'
 
-const auth = useAuth()
+const { signIn } = useAuth()
 const router = useRouter()
 const form = ref({
   email: '',
@@ -27,7 +27,7 @@ const authThemeMask = computed(() => {
 const isPasswordVisible = ref(false)
 
 async function onSubmit() {
-  const { success, message } = await auth.signIn({
+  const { success, message } = await signIn({
     email: form.value.email,
     password: form.value.password
   })

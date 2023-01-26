@@ -4,8 +4,9 @@ import { useRole } from "@/store/role/role"
 import { UpdateRoleRequest } from "@/store/role/type"
 
 const route = useRoute()
-const permission = usePermission()
-const { createRole, getRoleById } = useRole()
+const router = useRouter()
+const { getListPermission, dataPermission } = usePermission()
+const { getRoleById, updateRole } = useRole()
 const groupBy = [{ key: "permissionGroup" }]
 const sortBy = [{ key: 'permissionId' }]
 const header = [{
@@ -19,7 +20,10 @@ const form = reactive<UpdateRoleRequest>({
 })
 
 async function onSubmit() {
-  const { success, data, message } = await createRole(form)
+  const { success, data, message } = await updateRole(form)
+  if (success) {
+    router.back()
+  }
 }
 
 async function getRolesById(id: string) {
@@ -33,7 +37,7 @@ async function getRolesById(id: string) {
 }
 
 onMounted(() => {
-  permission.getListPermission()
+  getListPermission()
   getRolesById(route.params.id.toString())
 })
 
@@ -58,8 +62,7 @@ onMounted(() => {
 
     <VCardText>
       <VDataTable :group-by="groupBy" :headers="header" :sort-by="sortBy" show-select hide-default-footer
-        v-model="form.permission" :items="permission.dataPermission.items" class="elevation-0"
-        item-value="permissionId" />
+        v-model="form.permission" :items="dataPermission.items" class="elevation-0" item-value="permissionId" />
     </VCardText>
     <VDivider />
 

@@ -25,27 +25,27 @@ watch(() => props.show, (newValue) => {
 
 <template>
   <VDialog v-model="isShow">
-    <v-card class="mx-auto my-12" max-width="374">
+    <VCard class="mx-auto my-12" max-width="374">
       <template v-slot:loader="{ isActive }">
-        <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
+        <VProgressLinear :active="isActive" color="deep-purple" height="4" indeterminate />
       </template>
-      <v-card-item>
-        <v-card-title>{{ detail?.roleName }}</v-card-title>
+      <VCardItem>
+        <VCardTitle>{{ detail?.roleName }}</VCardTitle>
 
-        <v-card-subtitle>
+        <VCard-subtitle>
           <span class="me-1">Dibuat pada {{ detail?.createdAt }}</span>
 
-          <v-icon color="error" icon="mdi-calendar" size="small"></v-icon>
-        </v-card-subtitle>
-      </v-card-item>
+          <VIcon color="error" icon="mdi-calendar" size="small" />
+        </VCard-subtitle>
+      </VCardItem>
 
-      <v-card-text>
+      <VCard-text>
         <div>{{ detail?.roleDescription }}.</div>
-      </v-card-text>
+      </VCard-text>
 
-      <v-divider class="mx-4 mb-1"></v-divider>
+      <VDivider class="mx-4 mb-1" />
 
-      <v-card-title>Yang dapat dilakukan Role ini</v-card-title>
+      <VCardTitle>Yang dapat dilakukan Role ini</VCardTitle>
 
       <div class="px-4">
         <VList class="bg-transparent">
@@ -55,11 +55,11 @@ watch(() => props.show, (newValue) => {
         </VList>
       </div>
 
-      <v-card-actions>
+      <VCardActions>
         <v-btn color="deep-purple-lighten-2" variant="text" @click="$emit('close')">
           Batal
         </v-btn>
-      </v-card-actions>
-    </v-card>
+      </VCardActions>
+    </VCard>
   </VDialog>
 </template>

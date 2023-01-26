@@ -17,7 +17,7 @@ defineProps({
   }
 })
 
-defineEmits(['create', 'edit', 'show'])
+defineEmits(['create', 'edit', 'delete', 'show'])
 const itemPerPage = ref(10)
 
 
@@ -39,7 +39,7 @@ const itemPerPage = ref(10)
       <VDataTable v-model:items-per-page="itemPerPage" :headers="header" :items="data" item-value="name"
         class="elevation-0">
         <template v-slot:item.action="{ item }">
-          <VBtn icon="mdi-delete" variant="flat" color="primary" size="x-small" />
+          <VBtn icon="mdi-delete" @click="$emit('delete', item)" variant="flat" color="primary" size="x-small" />
           <VMenu>
             <template v-slot:activator="{ props }">
               <VBtn icon="mdi-dots-vertical" v-bind="props" size="x-small" />

@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     BookStatisticCard: typeof import('./src/@core/components/book/BookStatisticCard.vue')['default']
     BuyNow: typeof import('./src/@core/components/BuyNow.vue')['default']
     CardStatisticsVertical: typeof import('./src/@core/components/CardStatisticsVertical.vue')['default']
+    DialogDeleteConfirmation: typeof import('./src/@core/components/DialogDeleteConfirmation.vue')['default']
     ErrorHeader: typeof import('./src/@core/components/ErrorHeader.vue')['default']
     RoleVerticalNavLayout: typeof import('./src/@core/components/role/RoleVerticalNavLayout.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
