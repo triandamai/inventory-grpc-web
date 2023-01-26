@@ -28,116 +28,156 @@ export function useApi() {
 
   function get<T>(url: string): Promise<BaseResponse<T | null>> {
     return new Promise(async (resolve) => {
-      const { status, data } = await axios.get(buildUrlWithToken(url), {
-        headers: {
-          'content-type': 'application/json',
-        }
-      })
-      if (status >= 200 && status <= 209) {
-        resolve({
-          success: true,
-          message: "",
-          data: data
+      try {
+        const { status, data } = await axios.get(buildUrlWithToken(url), {
+          headers: {
+            'content-type': 'application/json',
+          }
         })
-        return
+        if (status >= 200 && status <= 209) {
+          resolve({
+            success: true,
+            message: "",
+            data: data
+          })
+          return
+        }
+        resolve({
+          success: false,
+          message: "",
+          data: null
+        })
+      } catch (e: any) {
+        resolve({
+          success: false,
+          message: e.message,
+          data: null
+        })
       }
-      resolve({
-        success: false,
-        message: "",
-        data: null
-      })
     })
   }
 
   function post<T>(url: string, body: any): Promise<BaseResponse<T | null>> {
     return new Promise(async (resolve) => {
-      const { status, data } = await axios.post(buildUrlWithToken(url), body, {
-        headers: {
-          'content-type': 'application/json'
-        }
-      })
-      if (status >= 200 && status <= 209) {
-        resolve({
-          success: true,
-          message: "",
-          data: data
+      try {
+        const { status, data } = await axios.post(buildUrlWithToken(url), body, {
+          headers: {
+            'content-type': 'application/json'
+          }
         })
-        return
+        if (status >= 200 && status <= 209) {
+          resolve({
+            success: true,
+            message: "",
+            data: data
+          })
+          return
+        }
+        resolve({
+          success: false,
+          message: "",
+          data: null
+        })
+      } catch (e: any) {
+        resolve({
+          success: false,
+          message: e.message,
+          data: null
+        })
       }
-      resolve({
-        success: false,
-        message: "",
-        data: null
-      })
     })
   }
 
   function put<T>(url: string, body: any): Promise<BaseResponse<T | null>> {
     return new Promise(async (resolve) => {
-      const { status, data } = await axios.put(buildUrlWithToken(url), body, {
-        headers: {
-          'content-type': 'application/json'
-        }
-      })
-      if (status >= 200 && status <= 209) {
-        resolve({
-          success: true,
-          message: "",
-          data: data
+      try {
+        const { status, data } = await axios.put(buildUrlWithToken(url), body, {
+          headers: {
+            'content-type': 'application/json'
+          }
         })
-        return
+        if (status >= 200 && status <= 209) {
+          resolve({
+            success: true,
+            message: "",
+            data: data
+          })
+          return
+        }
+        resolve({
+          success: false,
+          message: "",
+          data: null
+        })
+      } catch (e: any) {
+        resolve({
+          success: false,
+          message: e.message,
+          data: null
+        })
       }
-      resolve({
-        success: false,
-        message: "",
-        data: null
-      })
     })
 
   }
   function remove<T>(url: string): Promise<BaseResponse<T | null>> {
     return new Promise(async (resolve) => {
-      const { status, data } = await axios.delete(buildUrlWithToken(url), {
-        headers: {
-          'content-type': 'application/json'
-        }
-      })
-      if (status >= 200 && status <= 209) {
-        resolve({
-          success: true,
-          message: "",
-          data: data
+      try {
+        const { status, data } = await axios.delete(buildUrlWithToken(url), {
+          headers: {
+            'content-type': 'application/json'
+          }
         })
-        return
+        if (status >= 200 && status <= 209) {
+          resolve({
+            success: true,
+            message: "",
+            data: data
+          })
+          return
+        }
+        resolve({
+          success: false,
+          message: "",
+          data: null
+        })
+      } catch (e: any) {
+        resolve({
+          success: false,
+          message: e.message,
+          data: null
+        })
       }
-      resolve({
-        success: false,
-        message: "",
-        data: null
-      })
 
     })
   }
   function postFormData<T>(url: string, body: FormData): Promise<BaseResponse<T | null>> {
     return new Promise(async (resolve) => {
-      const { status, data } = await axios.postForm(buildUrlWithToken(url), body, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      if (status >= 200 && status <= 209) {
-        resolve({
-          success: true,
-          message: "",
-          data: data
+      try {
+        const { status, data } = await axios.postForm(buildUrlWithToken(url), body, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         })
-        return
+        if (status >= 200 && status <= 209) {
+          resolve({
+            success: true,
+            message: "",
+            data: data
+          })
+          return
+        }
+        resolve({
+          success: false,
+          message: "",
+          data: null
+        })
+      } catch (e: any) {
+        resolve({
+          success: false,
+          message: e.message,
+          data: null
+        })
       }
-      resolve({
-        success: false,
-        message: "",
-        data: null
-      })
     })
   }
 

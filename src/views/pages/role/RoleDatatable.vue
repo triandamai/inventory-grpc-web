@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RoleResponse } from '@/store/role/type';
 
-const props = defineProps({
+defineProps({
   header: {
     type: Array<{
       title: string,
@@ -17,7 +17,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['create'])
+defineEmits(['create', 'edit', 'show'])
 const itemPerPage = ref(10)
 
 
@@ -45,12 +45,17 @@ const itemPerPage = ref(10)
               <VBtn icon="mdi-dots-vertical" v-bind="props" size="x-small" />
             </template>
             <VList :density="'compact'" :lines="'one'" nav>
-              <VListItem v-for="(item, i) in [{ text: 'Edit', icon: 'mdi-folder' },
-              { text: 'View', icon: 'mdi-account-multiple' }]" :key="i" :value="item" active-color="primary">
+              <VListItem active-color="primary" @click="$emit('show', item)">
                 <template v-slot:prepend>
-                  <VIcon :icon="item.icon" />
+                  <VIcon icon="mdi-eye" />
                 </template>
-                <VListItemTitle v-text="item.text" />
+                <VListItemTitle>Show </VListItemTitle>
+              </VListItem>
+              <VListItem active-color="primary" @click="$emit('edit', item)">
+                <template v-slot:prepend>
+                  <VIcon icon="mdi-folder" />
+                </template>
+                <VListItemTitle>Edit</VListItemTitle>
               </VListItem>
 
             </VList>

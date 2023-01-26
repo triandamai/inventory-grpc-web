@@ -1,31 +1,42 @@
 <script setup lang="ts">
-import router from "@/router";
 import { usePermission } from "@/store/permission/permission"
 import { useRole } from "@/store/role/role"
-import { CreateRoleRequest } from "@/store/role/type"
+import { UpdateRoleRequest } from "@/store/role/type"
+
+const route = useRoute()
 const permission = usePermission()
-const role = useRole()
+const { createRole, getRoleById } = useRole()
 const groupBy = [{ key: "permissionGroup" }]
 const sortBy = [{ key: 'permissionId' }]
 const header = [{
   title: 'Access', align: 'start', value: 'permissionType', groupable: false
 }]
-const form = reactive<CreateRoleRequest>({
+const form = reactive<UpdateRoleRequest>({
+  roleId: "",
   roleName: "",
   roleDescription: "",
   permission: []
 })
 
 async function onSubmit() {
-  const { success, data, message } = await role.createRole(form)
-  if (success) {
-    router.back()
+  const { success, data, message } = await createRole(form)
+}
+
+async function getRolesById(id: string) {
+  const data = await getRoleById(id)
+  if (data) {
+    form.roleId = data.roleId
+    form.roleDescription = data.roleDescription
+    form.roleName = data.roleName
+    form.permission = data.permission.map((v) => v.permissionId)
   }
 }
 
 onMounted(() => {
   permission.getListPermission()
+  getRolesById(route.params.id.toString())
 })
+
 </script>
 
 <template>
