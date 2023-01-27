@@ -16,6 +16,7 @@ const headers = [
 ]
 
 const { dataUser, getListUser, deleteUser } = useUser()
+const router = useRouter()
 
 const selectedUser = ref<UserResponse | null>(null)
 const dialogShowDetail = ref(false)
@@ -34,6 +35,13 @@ function resetSelectedUser() {
   }
 }
 
+function onCreateNewUser() {
+  router.push({ path: '/user/add' })
+}
+
+function onUpdateUser(item: any) {
+  router.push({ path: `/user/edit/${item.value.userId}` })
+}
 function onShowDetailUser(item: any) {
   dialogShowDetail.value = true
   selectedUser.value = item.value
@@ -44,7 +52,7 @@ function onHideDetailUser() {
   resetSelectedUser()
 }
 
-function onShowDeleteConfirmatin(item: any) {
+function onShowDeleteConfirmation(item: any) {
   dialogShowDeleteConfirmation.value = true
   selectedUser.value = item.value
 }
@@ -70,12 +78,14 @@ onMounted(() => {
 <template>
   <VRow>
     <VCol cols="12">
-      <StatisticCard title="Data User" subtitle="User tersedia" :total="dataUser.totalItem.toFixed()" />
+      <StatisticCard title="Data User" subtitle="User tersedia" :total="dataUser.totalItem" />
     </VCol>
     <VCol cols="12">
-      <UserDatatable :header="headers" :data="dataUser.items" />
+      <UserDatatable :header="headers" :data="dataUser.items" @edit="onUpdateUser" @create="onCreateNewUser"
+        @delete="onShowDeleteConfirmation" />
     </VCol>
-    <DialogDeleteConfirmation :show="dialogShowDeleteConfirmation" :title="'Hapus user (' + selectedUser?.userEmail + ') ?'"
-      message="Setelah dihapus dapat tidak dapat dikembalikan" @close="onCancelDelete" @submit="onSubmitDeleteUser" />
+    <DialogDeleteConfirmation :show="dialogShowDeleteConfirmation"
+      :title="'Hapus user (' + selectedUser?.userEmail + ') ?'" message="Setelah dihapus dapat tidak dapat dikembalikan"
+      @close="onCancelDelete" @submit="onSubmitDeleteUser" />
   </VRow>
 </template>

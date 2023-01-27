@@ -10,3 +10,9 @@ export type UserResponse = {
   createdAt: string,
   updatedAt: string
 }
+
+export type CreateUserByAdminRequest = {
+  email: string,
+  fullName: string,
+  roles: Array<string>
+}

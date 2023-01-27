@@ -9,7 +9,8 @@ defineProps({
     default: () => ""
   },
   total: {
-    type: String
+    type: Number,
+    default: 0
   }
 })
 

@@ -1,8 +1,23 @@
 <script setup lang="ts">
 import avatar1 from '@/assets/images/avatars/avatar-1.png'
+import { useRole } from '@/store/role/role';
+import { useUser } from '@/store/user/user';
+import { CreateUserByAdminRequest } from '@/store/user/type';
+
+const { dataRole, getListRole } = useRole()
+const { createNewUser } = useUser()
+const router = useRouter()
 
 const refInputEl = ref<HTMLElement>()
 const avatarImg = ref(avatar1)
+const isPasswordVisible = ref(false)
+
+const form = ref<CreateUserByAdminRequest>({
+  fullName: "",
+  password: "",
+  email: "",
+  roles: []
+})
 
 const resetForm = () => {
 
@@ -27,6 +42,17 @@ const resetAvatar = () => {
   avatarImg.value = avatar1
 }
 
+async function onSubmit() {
+  const { success } = await createNewUser(form.value)
+  if (success) {
+    router.back()
+  }
+}
+
+
+onMounted(() => {
+  getListRole()
+})
 </script>
 
 <template>
@@ -66,27 +92,30 @@ const resetAvatar = () => {
         <VRow>
           <!-- 👉 First Name -->
           <VCol md="6" cols="12">
-            <VTextField label="First Name" />
+            <VTextField v-model="form.fullName" label="Full Name" />
           </VCol>
 
           <!-- 👉 Last Name -->
           <VCol md="6" cols="12">
-            <VTextField label="Last Name" />
+            <VTextField v-model="form.email" label="E-Mail" type="email" />
           </VCol>
 
           <!-- 👉 Email -->
           <VCol cols="12" md="6">
-            <VTextField label=" E-mail" type="email" />
+            <VTextField v-model="form.password" label="Password" :type="isPasswordVisible ? 'text' : 'password'"
+              :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+              @click:append-inner="isPasswordVisible = !isPasswordVisible" />
           </VCol>
 
-          <!-- 👉 Organization -->
-          <VCol cols="12" md="6">
-            <VTextField label="Organization" />
+          <!-- 👉 Organization-->
+          <VCol cols=" 12" md="6">
+            <VAutocomplete v-model="form.roles" label="Roles" chips multiple :items="dataRole.items"
+              item-title="roleName" item-value="roleId" />
           </VCol>
 
           <!-- 👉 Form Actions -->
           <VCol cols="12" class="d-flex flex-wrap gap-4">
-            <VBtn>Save changes</VBtn>
+            <VBtn @click="onSubmit">Save changes</VBtn>
 
             <VBtn color="secondary" variant="tonal" type="reset" @click.prevent="resetForm">
               Reset

@@ -27,7 +27,7 @@ const itemPerPage = ref(10)
     <VCardTitle>
       <VRow class="m-6">
         <VCol>
-          <VBtn variant="outlined" size="small" small>Tambah</VBtn>
+          <VBtn @click="$emit('create')" variant="outlined" size="small" small>Tambah</VBtn>
         </VCol>
         <VCol>
           <VTextField label="Cari" single-line hide-details></VTextField>

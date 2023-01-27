@@ -1,5 +1,5 @@
 import { BasePaging, useApi } from "@/@core/utils/api";
-import { UserResponse } from "./type";
+import { UserResponse, CreateUserByAdminRequest } from "./type";
 
 export const useUser = defineStore('user', {
   state: () => ({
@@ -22,12 +22,28 @@ export const useUser = defineStore('user', {
         this.dataUser.totalPage = data!.totalPage
       }
     },
+    async getDetailUser(userId: string) {
+      const { get } = useApi()
+
+      const response = await get<UserResponse>(`/api/v1/user/${userId}`)
+
+      return {
+        ...response
+      }
+    },
+    async createNewUser(body: CreateUserByAdminRequest) {
+      const { post } = useApi()
+
+      const response = await post<UserResponse>(`/api/v1/add-user`, body)
+
+      return { ...response }
+    },
     async deleteUser(userId: string): Promise<boolean> {
       const { remove } = useApi()
 
       const { success, data } = await remove<UserResponse>(`/api/v1/user/${userId}`)
       if (success) {
-        const findIndex = this.dataUser.items.map((v) => v.userId).indexOf(data?.userId)
+        const findIndex = this.dataUser.items.map((v) => v.userId).indexOf(data!.userId)
 
         this.dataUser.items.splice(findIndex, 1)
       }
