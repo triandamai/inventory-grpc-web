@@ -38,7 +38,7 @@ export const useSupplier = defineStore('supplier', {
         ...response
       }
     },
-    async updateSupplier(body: UpdateNewSupplierRequest) {
+    async updateSupplier(body: UpdateSupplierRequest) {
       const { put } = useApi()
 
       const response = await put<SupplierResponse>(`/api/v1/supplier`, body)
