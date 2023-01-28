@@ -1,29 +1,42 @@
 
 <script setup lang="ts">
+import SupplierDatatable from '@/views/pages/supplier/SupplierDatatable.vue';
+import { useSupplier } from "@/store/supplier/supplier"
 
-const props = defineProps({})
+const { dataSupplier, getListSupplier } = useSupplier()
+const router = useRouter()
 
 const headers = [
-  { title: 'Cover', align: 'end', sortable: false, key: 'cover' },
+  { title: 'Nama', align: 'end', sortable: false, key: 'supplierFullName' },
   {
-    title: 'Judul',
+    title: 'Email',
     align: 'start',
     sortable: false,
-    key: 'name',
+    key: 'supplierEmail',
   },
-  { title: 'ISBN', align: 'end', sortable: false, key: 'calories' },
+  { title: 'No Telp', align: 'end', sortable: false, key: 'supplierPhoneNumber' },
   { title: 'Aksi', align: 'end', sortable: false, key: 'action' },
 ]
+
+function onCreateSupplier() {
+  router.push({
+    path: `/supplier/add`
+  })
+}
+
+onMounted(() => {
+  getListSupplier()
+})
 
 const datas: Array<any> = []
 </script>
 <template>
   <VRow>
     <VCol cols="12">
-      <BookStatisticCard />
+      <StatisticCard />
     </VCol>
     <VCol cols="12">
-      <BookDatatable :header="headers" :data="datas" />
+      <SupplierDatatable :header="headers" :data="dataSupplier.items" @create="onCreateSupplier" />
     </VCol>
   </VRow>
 </template>

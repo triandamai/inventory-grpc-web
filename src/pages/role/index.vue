@@ -78,7 +78,7 @@ onMounted(() => {
 <template>
   <VRow>
     <VCol cols="12">
-      <StatisticCard title="Daftar Role Pada Aplikasi" subtitle="Jumlah Role" :total="dataRole.totalItem.toString()" />
+      <StatisticCard title="Daftar Role Pada Aplikasi" subtitle="Jumlah Role" :total="dataRole.totalItem" />
     </VCol>
     <VCol cols="12">
       <RoleDatatable @create="router.push({ path: '/role/add' })" @show="onShowDetailRole" @edit="onEditRole"

@@ -18,7 +18,7 @@ export const useRole = defineStore('role', {
       if (success) {
         this.dataRole.items = data!.data
         this.dataRole.currentPage = data!.currentPage
-        this.dataRole.totalItem = data!.totalItem
+        this.dataRole.totalItem = Number.parseInt(data!.totalItem.toString())
         this.dataRole.totalPage = data!.totalPage
       }
     },
