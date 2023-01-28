@@ -10,7 +10,7 @@ export type SupplierResponse = {
 }
 
 export type CreateNewSupplierRequest = {
-  supplieEmail: string,
+  supplierEmail: string,
   supplierFullName: string,
   supplierOrgName: string,
   supplierPhoneNumber: string,
@@ -19,7 +19,7 @@ export type CreateNewSupplierRequest = {
 
 export type UpdateSupplierRequest = {
   supplierId: string,
-  supplieEmail: string,
+  supplierEmail: string,
   supplierFullName: string,
   supplierOrgName: string,
   supplierPhoneNumber: string,

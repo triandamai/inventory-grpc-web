@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import avatar1 from '@/assets/images/avatars/avatar-1.png'
 import { useSupplier } from '@/store/supplier/supplier';
-import { CreateNewSupplierRequest } from '@/store/supplier/type';
+import { UpdateSupplierRequest } from '@/store/supplier/type';
 
-const { createNewSupplier } = useSupplier()
+const { updateSupplier, getSupplierById } = useSupplier()
 const router = useRouter()
+const route = useRoute()
 
 const refInputEl = ref<HTMLElement>()
 const avatarImg = ref(avatar1)
 const isPasswordVisible = ref(false)
 
-const form = ref<CreateNewSupplierRequest>({
+const form = ref<UpdateSupplierRequest>({
+  supplierId: "",
   supplierEmail: "",
   supplierAddress: "",
   supplierFullName: "",
@@ -41,12 +43,33 @@ const resetAvatar = () => {
   avatarImg.value = avatar1
 }
 
+async function getDetail(supplierId: string) {
+  const { success, data } = await getSupplierById(supplierId)
+  if (success) {
+    form.value = {
+      supplierId: data!.supplierId,
+      supplierEmail: data!.supplierEmail,
+      supplierFullName: data!.supplierFullName,
+      supplierAddress: data!.supplierAddress,
+      supplierOrgName: data!.supplierOrgName,
+      supplierPhoneNumber: data!.supplierPhoneNumber
+    }
+
+  }
+}
+
 async function onSubmit() {
-  const { success } = await createNewSupplier(form.value)
+  const { success } = await updateSupplier(form.value)
   if (success) {
     router.back()
   }
 }
+
+onMounted(() => {
+  if (route.params.id) {
+    getDetail(route.params.id.toString())
+  }
+})
 </script>
 
 <template>

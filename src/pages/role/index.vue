@@ -25,14 +25,7 @@ const dialogShowDetail = ref(false)
 const dialogShowDeleteConfirmation = ref(false)
 
 function resetSelectedRole() {
-  selectedRole.value = {
-    roleId: "",
-    roleName: "",
-    roleDescription: "",
-    permission: [],
-    createdAt: "",
-    updatedAt: ""
-  }
+  selectedRole.value = null
 }
 function onShowDetailRole(item: any) {
   dialogShowDetail.value = true
@@ -61,8 +54,6 @@ async function onSubmitDeleteRole() {
 
   }
 }
-
-
 
 function onEditRole(item: any) {
   router.push({
