@@ -52,3 +52,19 @@ const useDebounceRef = (initialValue: any, delay: number, immediate: boolean) =>
   }))
 }
 
+export function addOrReplaceData<T>(data: T, arr: Array<T>, key: string, replace: (data: T, index: number) => void, push: (data: T) => void) {
+  const indexKey = key
+
+  console.log(arr)
+  if (arr) {
+    const isDataExist = arr.some((v: T) => (v as any)[indexKey] == (data as any)[indexKey])
+    if (isDataExist) {
+      const index = arr.map(v => (v as any)[indexKey]).indexOf((data as any)[indexKey])
+      replace(data, index)
+    } else {
+      push(data)
+    }
+  } else {
+    push(data)
+  }
+}
