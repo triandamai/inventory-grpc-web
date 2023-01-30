@@ -41,6 +41,20 @@ export const menus: Array<{
       icon: "mdi-store"
     },
     {
+      title: "Category",
+      type: "link",
+      path: "category",
+      access_role: ["PUBLIC"],
+      icon: "mdi-store"
+    },
+    {
+      title: "Product",
+      type: "link",
+      path: "product",
+      access_role: ["PUBLIC"],
+      icon: "mdi-store"
+    },
+    {
       title: "Role",
       type: "link",
       path: "role",

@@ -14,5 +14,6 @@ export type UserResponse = {
 export type CreateUserByAdminRequest = {
   email: string,
   fullName: string,
+  password: string,
   roles: Array<string>
 }
