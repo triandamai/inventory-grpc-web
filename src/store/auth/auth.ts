@@ -2,7 +2,7 @@ import { useApi } from '@/@core/utils/api'
 import { useSession } from '@/composables/session'
 import { SignInWithEmailRequest, SignInResponse } from './type';
 
-export const useAuth = defineStore('counter', {
+export const useAuth = defineStore('auth', {
   state: () => ({
     isLoading: false,
   }),

@@ -76,3 +76,33 @@ export const menus: Array<{
       icon: "mdi-store"
     },
   ]
+
+export const menuCashier: Array<{
+  title: string,
+  path: string,
+  type: "divider" | "link" | "button",
+  access_role: Array<string>,
+  icon: string | null
+}> = [
+    {
+      title: "Dashboard",
+      type: "link",
+      path: "index",
+      access_role: ["PUBLIC"],
+      icon: 'mdi-home'
+    },
+    {
+      title: "User",
+      type: "link",
+      path: "user",
+      access_role: ["PUBLIC"],
+      icon: "mdi-account"
+    },
+    {
+      title: "Customer",
+      type: "link",
+      path: "customer",
+      access_role: ["PUBLIC"],
+      icon: "mdi-file"
+    }
+  ]

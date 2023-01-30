@@ -76,7 +76,7 @@ async function onSubmitCreateProduct(params: CreateNewProductRequest) {
 async function onSubmitUpdateProduct(params: UpdateProductRequest) {
   const success = await updateProduct(params)
   if (success) {
-    onHideFormProduct()
+    onHideFormUpdateProduct()
   }
 }
 

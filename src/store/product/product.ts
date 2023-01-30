@@ -28,7 +28,6 @@ export const useProduct = defineStore('product', {
 
       const { success, data } = await post<ProductResponse>(`/api/v1/product`, body)
 
-      console.log(success)
       if (success) {
         addOrReplaceData<ProductResponse>(
           data!,
