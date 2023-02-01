@@ -11,7 +11,7 @@ const rightDrawer = ref(true)
     style="background: rgb(var(--v-theme-background))" class="layout-vertical-nav position-fixed">
     <slot name="navigation-drawer-content" />
   </VNavigationDrawer>
-  <VAppBar app flat class="px-6 layout-navbar" style="background: transparent">
+  <VAppBar app flat class="px-6 layout-navbar" style="">
     <template v-if="mdAndDown" #prepend>
       <VAppBarNavIcon class="d-block d-lg-none me-2 ms-n3" color="inherit" @click="drawer = true" />
     </template>
@@ -22,8 +22,8 @@ const rightDrawer = ref(true)
       <slot />
     </div>
   </VMain>
-  <VNavigationDrawer v-model="rightDrawer" app temporary location="right"
-    style="background: rgb(var(--v-theme-background))" class="layout-vertical-nav position-fixed">
+  <VNavigationDrawer v-model="rightDrawer" temporary location="right" style="background: rgb(var(--v-theme-background))"
+    class="layout-vertical-nav position-fixed">
     <slot name="navigation-drawer-content" />
   </VNavigationDrawer>
   <VFooter app style="background: transparent">

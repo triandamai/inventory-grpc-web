@@ -6,6 +6,7 @@ import { VerticalNavLayoutCashier } from '@layouts'
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
+import DrawerCart from './components/DrawerCart.vue'
 </script>
 
 <template>
@@ -30,7 +31,7 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 
     <!-- 👉 Drawer content -->
     <template #navigation-drawer-content>
-      <DrawerCashier />
+      <DrawerCart />
     </template>
 
     <!-- 👉 Pages -->
